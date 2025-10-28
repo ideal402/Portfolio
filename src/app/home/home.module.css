@@ -1,0 +1,13 @@
+.mainContainer{
+    width: 100vw;
+    height: 200vh;
+    background-color: none;
+    position: absolute;
+    z-index: 2;
+    color: white;
+    
+}
+
+.background{
+    background-color: red;
+}
