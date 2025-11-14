@@ -3,12 +3,15 @@
 import HeroSection from "./home/HeroSection"; 
 import Approach from "./home/Approach";
 import Service from "./home/Service";
+import Navbar  from "../component/Navbar";
 
 export default function Home() {
   return (
     <>
       <div>
-        <header></header>
+        <header>
+          <Navbar/>
+        </header>
       </div>
       <main>
         <HeroSection/>

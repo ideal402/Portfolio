@@ -22,7 +22,7 @@ function HeroSection() {
           height:"100vh",
           width: "100%",
           y:smoothY,
-          backgroundColor:"gray",
+          backgroundColor:"#0D0D0D",
           zIndex:"1",
         }}
       />
