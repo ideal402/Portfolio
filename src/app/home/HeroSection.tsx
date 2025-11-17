@@ -21,21 +21,22 @@ function HeroSection() {
       <motion.div className={style.background} style={{ y:smoothY, }}>
         <div className={style.textArea}>
           <div className={style.title}>
-            <h1> firstline </h1>
-            <h1> secondline </h1>
+            <h1> 안녕하세요 </h1>
+            <h1> 이상빈입니다 </h1>
           </div>
           <div className={style.subTitle}>
-            <h3> firstline </h3>
-            <h3> secondline </h3>
+            <h3> 여기에 자기소개를 적어주세여 </h3>
+            <h3> 저는 어떤걸 하고 어떤걸 좋아하는 개발자입니다 </h3>
           </div>
         </div>
         <motion.div 
           className={style.icon}
-          animate = {{ y: ["0px", "5px"]}}
+          animate = {{ y: ["0px", "-10px"]}}
           transition={{
-            duration: 0.3,
+            duration: 0.7,
             repeat: Infinity,
             repeatType: "mirror",
+            ease:"easeInOut"
           }}
           >
           <SlArrowDown />
