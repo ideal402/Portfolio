@@ -1,9 +1,8 @@
-.mainContainer{
+.navContainer{
     width: 100vw;
-    height: auto;
+    height: 7vh;
     position: fixed;
     z-index: 9999;
-    background-color: none;
     padding: 20px 40px;
     display: flex;
     justify-content: end;
@@ -32,4 +31,17 @@
     background-color: gray;
     opacity: 70%;
     z-index: 9998;
+    padding: 7vh 2vw 0px 2vw;
+}
+
+.menuItem{
+    list-style: none;
+    margin-top: 15px;
+    font-size: 40px;
+    border-bottom: 1px solid white;
+}
+
+.menuItem:hover{
+    background-color: beige;
+    cursor: pointer;
 }

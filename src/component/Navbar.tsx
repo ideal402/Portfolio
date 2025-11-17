@@ -19,20 +19,30 @@ export default function Navbar(){
 
     return(
         <>
-            <div className={style.mainContainer}>
+            <div className={style.navContainer}>
                 <p className={style.text}>MENU</p>
                 <button 
                     className={style.toggle}
                     onClick={handleMenuToggle}
                 ></button>
             </div>
-            <motion.div 
+            <motion.ul 
                 className={style.menu}
                 initial="closed"
                 animate={isMenuOpen ? "open" : "closed"}
                 variants={menuVarient}
                 transition={{type:"tween", duration: 0.4}}
-            />    
+            >   
+                <li className={style.menuItem}>
+                    1st
+                </li>
+                <li className={style.menuItem}>
+                    2nd
+                </li>
+                <li className={style.menuItem}>
+                    3rd
+                </li>
+            </motion.ul>
         </>
     )
 };
