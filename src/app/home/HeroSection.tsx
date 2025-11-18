@@ -1,11 +1,19 @@
+import React, { forwardRef, useRef, useImperativeHandle } from "react";
 import {motion, useScroll, useTransform, useSpring} from "framer-motion"
-import style from "./home.module.css";
+import style from "./hero.module.css";
 
 import { SlArrowDown } from "react-icons/sl";
 
 
-function HeroSection() {
-  const {scrollYProgress} = useScroll();
+const HeroSection = forwardRef(function HeroSection(props, forwardedRef) {
+  const localRef = useRef(null);
+
+  useImperativeHandle(forwardedRef, () => localRef.current);
+
+  const {scrollYProgress} = useScroll({
+    target: localRef,
+    offset: ["start start", "end end"],
+  });
 
   const y = useTransform(scrollYProgress, [0, 1], ["0vh", "-100vh"]);
 
@@ -17,7 +25,7 @@ function HeroSection() {
 
 
   return (
-    <div className={style.mainContainer}>
+    <div ref={localRef} className={style.mainContainer}>
       <motion.div className={style.background} style={{ y:smoothY, }}>
         <div className={style.textArea}>
           <div className={style.title}>
@@ -26,7 +34,7 @@ function HeroSection() {
           </div>
           <div className={style.subTitle}>
             <h3> 여기에 자기소개를 적어주세여 </h3>
-            <h3> 저는 어떤걸 하고 어떤걸 좋아하는 개발자입니다 </h3>
+            <h3> 저는 어떤걸 추구하는 개발자입니다 </h3>
           </div>
         </div>
         <motion.div 
@@ -44,7 +52,7 @@ function HeroSection() {
       </motion.div>
     </div>
   );
-};
+});
 
 HeroSection.displayName = "HeroSection"; 
 
