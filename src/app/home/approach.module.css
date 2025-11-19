@@ -53,6 +53,7 @@
     left: 55%;
     top: calc(50% - 1px);
     width: 30%;
+    max-width: 300px;
     height: 2px;
     background-color: #F28705;
     z-index: 10;
@@ -63,6 +64,7 @@
     top: calc(50% - 1px);
     left: 55%;
     width: 30%;
+    max-width: 300px;
     height: 2px;
     background-color: white;
 }
