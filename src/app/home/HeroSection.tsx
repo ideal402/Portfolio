@@ -7,7 +7,6 @@ import { SlArrowDown } from "react-icons/sl";
 
 const HeroSection = forwardRef(function HeroSection(props, forwardedRef) {
   const localRef = useRef(null);
-
   useImperativeHandle(forwardedRef, () => localRef.current);
 
   const {scrollYProgress} = useScroll({
@@ -18,11 +17,10 @@ const HeroSection = forwardRef(function HeroSection(props, forwardedRef) {
   const y = useTransform(scrollYProgress, [0, 1], ["0vh", "-100vh"]);
 
   const smoothY = useSpring(y, {
-    stiffness: 50,
+    stiffness: 60,
     damping:15,
     restDelta: 0.003,
   })
-
 
   return (
     <div ref={localRef} className={style.mainContainer}>

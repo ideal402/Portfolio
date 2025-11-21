@@ -1,5 +1,6 @@
-import React from "react";
+import React, { forwardRef, useRef, useImperativeHandle } from "react";
 import style from "./service.module.css"
+import {motion, useScroll, useTransform} from "framer-motion"
 
 const projectData = [
     {
@@ -19,13 +20,57 @@ const projectData = [
         title: "Backend API",
         color: "green",
         lines: ["Node.js & Express", "Database Design", "API Integration"]
-    }
+    },
 ];
 
-function Service(){
+
+const Service = forwardRef (function Service(props, forwardedRef) {
+    const localRef = useRef(null);    
+    useImperativeHandle(forwardedRef, () => localRef.current);
+    
+    const {scrollYProgress} = useScroll({
+        target: localRef,
+        offset: ["start 80%", "end 80%"],
+    })
+    const height = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+    
+    const projectCount = projectData.length;
+    const gapCount = projectCount > 0 ? projectCount - 1 : 0;
+    const lineHeight = `calc(${gapCount} * 80vh + 219px)`;
+
+    const textVariants = {
+        initial: { opacity: 0, y: 20 }, 
+        animate: { opacity: 1, y: 0 },   
+    };
+
+    const imageVariants = {
+        initial:{opacity:0, x:-20},
+        animate: { opacity: 1, x: 0 },   
+    }
+
+    const lineVariants = {
+        initial: { width: "0px" }, 
+        animate: {  width: "50px"},
+    }
+
+    const topLineVariants = {
+        initial: { width: "0px" }, 
+        animate: {  width: "100px"},
+    }
+
+
     return(
         <div className={style.mainContainer}>
             <div className={style.topArea}>
+                <motion.div 
+                    variants={topLineVariants}
+                    initial = "initial"
+                    whileInView="animate"
+                    viewport={{ margin: "100% 0px -20% 0px" }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                    style={{marginTop:"10px"}}
+                    className={style.headerLineOvercoat}
+                />
                 <div className={style.topLine}></div>
                 <h3>Projects</h3>
             </div>
@@ -33,31 +78,73 @@ function Service(){
             {projectData.map((project) => (
                 <div key={project.id} className={style.projectArea}>
                     <div className={style.projectheader}>
-                        <div className={style.headerLine}></div>
-                        <h1>{project.title}</h1>
+                        <motion.div 
+                            variants={lineVariants}
+                            initial = "initial"
+                            whileInView="animate"
+                            viewport={{ margin: "100% 0px -20% 0px" }}
+                            transition={{ duration: 0.3, ease: "easeOut" }}
+                            className={style.headerLineOvercoat}
+                        />
+                        <div className={style.headerLine} />
+                        <motion.h1
+                            variants={textVariants}
+                            initial="initial"
+                            whileInView="animate"
+                            viewport={{once: true, amount: 0.5}}
+                            
+                            transition={{ duration: 0.5 }}
+                        >
+                            {project.title}
+                        </motion.h1>
                     </div>
                     <div className={style.projectMain}>
-                        <div className={style.mainImege}>
+                        <motion.div 
+                            className={style.mainImege}
+                            variants={imageVariants}
+                            initial="initial"
+                            whileInView="animate"
+                            viewport={{once: true, amount: 0.5}}
+                            transition={{ duration: 0.5 }}
+                        >
                             <img 
                                 style={{
                                     backgroundColor: project.color, 
-                                    width: "400px", 
-                                    height: "260px"
+                                    width: "80%", 
+                                    height: "auto",
                                 }}
                                 alt={project.title}
                             />
-                        </div>
-                        <div className={style.mainText}>
+                        </motion.div>
+                        <motion.div
+                            className={style.mainText}
+                            variants={textVariants}
+                            initial="initial"
+                            whileInView="animate"
+                            viewport={{once: true, amount: 0.5}}
+                            transition={{ duration: 0.5, delay: 0.4 }}
+                        >
                             <h1>{project.lines[0]}</h1>
                             <h1>{project.lines[1]}</h1>
                             <h1>{project.lines[2]}</h1>
-                        </div>
+                        </motion.div>
                     </div>
                 </div>
             ))}
-            <div className={style.leftLine}/>
+            <div
+                ref={localRef}
+                className={style.leftLine}
+                style={{height:lineHeight}}
+            >
+                <motion.div 
+                    className={style.overcoat}
+                    style={{
+                        height: height,
+                    }}
+                />
+            </div>
         </div>
     )
-}
+});
 
 export default Service

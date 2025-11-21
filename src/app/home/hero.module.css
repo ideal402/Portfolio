@@ -2,20 +2,21 @@
     width: 100vw;
     height: 200vh;
     position: absolute;
-    z-index: 3;
-    color: white;
 }
 .background{
-    position: fixed;
-    text-align: center;
-    height: 100vh;
     width: 100vw;
+    height: 100vh;
+
+    position: fixed;
     background-color: #0D0D0D;
     z-index: 4;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 .textArea{
     width: 100%;
-    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;

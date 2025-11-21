@@ -16,14 +16,16 @@ const Approach = forwardRef (function Approach(props, forwardedRef) {
 
     useEffect(() => {
         const unsubscribe = scrollYProgress.on("change", (latest) => {
-            if (latest < 0.40) { 
+            if (latest < 0.20) { 
                 setActiveText(0); 
-            } else if (latest < 0.60) {
+            } else if (latest < 0.36) {
                 setActiveText(1);
-            } else if (latest < 0.80) {
+            } else if (latest < 0.52) {
                 setActiveText(2); 
-            } else {
+            } else if (latest < 0.68){
                 setActiveText(3); 
+            } else{
+                setActiveText(0);
             }
         });
         return () => unsubscribe();

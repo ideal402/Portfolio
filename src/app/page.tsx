@@ -9,6 +9,7 @@ import { useRef } from "react";
 export default function Home() {
   const heroRef = useRef(null);
   const aprRef = useRef(null);
+  const svcRef = useRef(null);
   return (
     <>
       <header>
@@ -17,7 +18,7 @@ export default function Home() {
       <main>
         <HeroSection ref={heroRef}/>
         <Approach ref={aprRef}/>
-        <Service/>
+        <Service ref={svcRef}/>
       </main>
       <footer>       
       </footer>
