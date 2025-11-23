@@ -12,6 +12,7 @@ export default function Home() {
   const heroRef = useRef(null);
   const aprRef = useRef(null);
   const svcRef = useRef(null);
+  const carRef = useRef(null);
   return (
     <>
       <header>
@@ -22,8 +23,8 @@ export default function Home() {
         <Approach ref={aprRef}/>
         <Service ref={svcRef}/>
       </main>
-      <footer>       
-        {/* <Career/> */}
+      <footer>      
+        <Career ref={carRef}/>
       </footer>
     </>
   );
