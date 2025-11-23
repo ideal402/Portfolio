@@ -36,7 +36,7 @@ const Service = forwardRef (function Service(props, forwardedRef) {
     
     const projectCount = projectData.length;
     const gapCount = projectCount > 0 ? projectCount - 1 : 0;
-    const lineHeight = `calc(${gapCount} * 80vh + 219px)`;
+    const lineHeight = `calc(${gapCount} * 80vh + 10vh + 90px)`;
 
     const textVariants = {
         initial: { opacity: 0, y: 20 }, 

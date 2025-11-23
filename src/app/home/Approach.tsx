@@ -47,7 +47,6 @@ const Approach = forwardRef (function Approach(props, forwardedRef) {
             <div className={style.stickyContainer}> 
                 <div className={style.contentArea}> 
                     <AnimatePresence mode="wait">
-
                     {activeText === 1 && (
                     <motion.div
                         key="text1"
@@ -93,36 +92,41 @@ const Approach = forwardRef (function Approach(props, forwardedRef) {
                         <h1>세번쨰 텍스트 3</h1>
                     </motion.div>
                     )}
-
                     </AnimatePresence>
-                    {activeText !== 0 && (
-                    <motion.div 
-                            className={style.progressbarArea}
-                            initial={{ opacity: 0, y: 20 }}  
-                            animate={{ opacity: 1, y: 0 }}   
-                            transition={{ duration: 0.3, delay: 0.2 }}
-                        >
-                        <AnimatePresence mode="wait">
-                            <motion.h2
-                                key = {activeText}
-                                variants={numberVariants}
-                                initial="initial"
-                                animate="animate"
-                                exit="exit"
-                                transition={{ duration: 0.3, ease: "easeInOut" }}
+
+                    <AnimatePresence>
+                        {activeText !== 0 && (
+                            <motion.div 
+                                className={style.progressbarArea}
+                                initial={{ opacity: 0, y: 20 }}  
+                                animate={{ opacity: 1, y: 0 }}   
+                                exit={{opacity: 0, y: -20 }}
+                                transition={{ duration: 0.3, delay: 0.2 }}
                             >
-                                {activeText} 
-                            </motion.h2>
-                        </AnimatePresence>
-                        <h2>/ 3</h2>
+                            <AnimatePresence mode="wait">
+                                <motion.h2
+                                    key = {activeText}
+                                    variants={numberVariants}
+                                    initial="initial"
+                                    animate="animate"
+                                    exit="exit"
+                                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                                >
+                                    {activeText} 
+                                </motion.h2>
+                            </AnimatePresence>
+                            <h2>/ 3</h2>
+                            
                             <motion.div
                                 className={style.progressbar}
                                 animate={{ scaleX: activeText/3 }}
                                 transition={{ duration: 0.3, ease: "easeInOut" }}
                             />
-                        <div className={style.progressbarBackground}/>
-                    </motion.div>
-                    )}
+                            <div className={style.progressbarBackground}/>
+                        </motion.div>
+                        )}
+                    </AnimatePresence>
+                   
                 </div>
             </div>
         </div>

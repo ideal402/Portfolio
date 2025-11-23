@@ -1,13 +1,23 @@
 .mainContainer{
     width: 100vw;
     height: 200vh;
-    position: absolute;
+    z-index: 10;
+    background-color: transparent;
 }
-.background{
+.stickyArea{
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+.heroSection{
     width: 100vw;
     height: 100vh;
 
-    position: fixed;
+    position: absolute;
+    top: 0;
+    left: 0;
     background-color: #0D0D0D;
     z-index: 4;
 
@@ -15,6 +25,8 @@
     flex-direction: column;
     justify-content: center;
 }
+
+
 .textArea{
     width: 100%;
     display: flex;
@@ -25,12 +37,10 @@
 .title{
     font-size: 4rem;
 }
-
 .title > h1:first-child{
     justify-self: end;
     padding-right: 15%;
 }
-
 .title > h1:last-child{
     justify-self: end;
     padding-right: 20%;
@@ -44,6 +54,8 @@
 .subTitle > h3{
     justify-self: start;
 }
+
+
 .icon{
     position: absolute;
     bottom: 20px;

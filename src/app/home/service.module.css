@@ -1,9 +1,10 @@
 .mainContainer{
-    position: absolute;
-    z-index: 10;
-    top: 500vh;
+    position: relative;
     width: 100vw;
-    height: auto;
+
+    margin-top: -100vh;
+    z-index: 10;
+
     display: flex;
     flex-direction: column;
     background-color: #0D0D0D;
@@ -18,12 +19,11 @@
 }
 .topLine{
     width: 100px;
-    height: 7vh;
     border-top:0.5px solid #F28705;
-    border-left:0.5px solid #F28705;
     margin-right: 10px;
     margin-top: 10px;
 }
+
 
 .projectArea{
     padding-top: 60px;
@@ -70,18 +70,20 @@
     height: 100%;
     width: 40%;
 }
+
+
 .leftLine{
     position: absolute;
-    top: 30px;
     background-color: #F28705;
+
     width: 0.5px;
-    margin-left: 20px;
+    left: 20px;
+    top: 30px;
     overflow: visible;
 }
 .overcoat{
     width: 100%;
     background-color: #F28705;
-    position: 'absolute';
     box-shadow: 0 0 10px 1px #F28705;
     top: 0;
     left: 0;
