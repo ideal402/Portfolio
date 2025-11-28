@@ -1,6 +1,7 @@
 .mainContainer{
     position: relative;
     width: 100vw;
+    height: 600vh;
 
     margin-top: -100vh;
     padding: 0px 40px 50vh 40px;
@@ -31,12 +32,12 @@
     padding-top: 60px;
     margin: 0 20px 0 20px;
     width: calc(100% - 40px);
-    height: 80vh;
+    height: auto;
 }
 
 .projectheader{
     width: 100%;
-    height: 20%;
+    height: 20vh;
     display: flex;
     align-items: center;
     font-size: 1.5rem;
@@ -58,10 +59,8 @@
 
 .projectMain{
     width: 100%;
-    height: 80%;
-
-    padding: 0px 30px 0px 30px;
-
+    padding: 0px 50px 0px 50px;
+    margin-bottom: 50px;
     display: flex;
     justify-content: space-around;
     align-items: flex-start;
@@ -99,6 +98,27 @@
     color: #999; /* 회색 텍스트 */
     font-size: 0.95rem;
     font-weight: 400;
+}
+
+
+.projectSub{
+    width: 100%;
+}
+.subTxet{
+    width: 100%;
+    font-size: xx-large;
+    font-weight: 800;
+    padding: 0 50px 0 50px;
+}
+.subImege{
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    padding: 0 50px 0 50px;
+
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* 2. 기술 스택 */

@@ -2,13 +2,56 @@ import React, { forwardRef, useRef, useImperativeHandle } from "react";
 import style from "./service.module.css"
 import {motion, useScroll, useTransform} from "framer-motion"
 
-const projectData = [
+interface DetailItem {
+    subTitle: string;
+    items: string[];
+}
+
+interface MediaItem {
+    type: 'video' | 'image';
+    src: string;
+    label?: string; // 하단 서브 이미지/영상에만 사용되는 라벨
+}
+
+interface ProjectItem {
+    id: number;
+    title: string;
+    color: string;
+    mainMedia: {
+        type: 'video' | 'image';
+        src: string;
+    };
+    metaInfo: string[];
+    techStack: string;
+    details: DetailItem[];
+    subImages?: MediaItem[];
+}
+
+// 2. 유튜브 URL 변환 함수 (타입 명시)
+const getYouTubeEmbedUrl = (url: string): string => {
+    if (!url) return "";
+    if (url.includes("/embed/")) return url;
+    
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+
+    return (match && match[2].length === 11)
+        ? `https://www.youtube.com/embed/${match[2]}`
+        : url;
+};
+
+// 3. 데이터 (ProjectItem 타입 적용)
+const projectData: ProjectItem[] = [
     {
         id: 1,
         title: "MoviLink : 차량 실시간 모니터링 및 원격 제어 플랫폼",
-        color: "#333", 
+        color: "#333",
+        mainMedia: {
+            type: "image",
+            src: "/proj1_main.png",
+        },
         metaInfo: [
-            "url : ~~",
+            "Readme: https://github.com/ideal402/Hyundai-embedded-project",
             "기간 : 25.03.18 ~ 25.03.27",
             "개발인원 : 4명",
             "역할 : PM / 데이터 처리 서버 및 통신 기능 개발"
@@ -16,114 +59,39 @@ const projectData = [
         techStack: "React / Node.js / C++",
         details: [
             {
-                subTitle: "ESP32 모듈 제작",
+                subTitle: "주요기능",
                 items: [
-                    "UART 통신을 통해 기기 본체와 데이터 송수신",
-                    "WebSocket을 통한 서버와 양방향 통신 구현"
-                ]
-            },
-            {
-                subTitle: "백엔드 서버 구축",
-                items: [
-                    "수집한 데이터 실시간 시각화 및 DB 저장",
-                    "DB 저장 로직을 비동기 백그라운드 작업으로 전환하여 데이터 처리와 저장 로직 분리 \n-> 병목현상 개선 및 반응성 개선",
-                    "차량 제어 API 개발"
-                ]
-            },
-            {
-                subTitle: "프론트엔드 개발",
-                items: [
-                    "문 열림, 주행 여부 등 차량 상태 시각화",
-                    "실시간 센서 데이터 시각화"
+                    "웹을 통해 차량을 원격으로 제어할 수 있습니다.",
+                    "차량의 상태를 실시간으로 모니터링 할 수 있습니다.",
                 ]
             }
-        ]
-    },
-        {
-        id: 2,
-        title: "MoviLink : 차량 실시간 모니터링 및 원격 제어 플랫폼",
-        color: "#333", // 실제 이미지 경로가 있다면 img src로 대체
-        // 1. 상단 메타 정보 (회색 텍스트)
-        metaInfo: [
-            "url : ~~",
-            "기간 : 25.03.18 ~ 25.03.27",
-            "개발인원 : 4명",
-            "역할 : PM / 데이터 처리 서버 및 통신 기능 개발"
         ],
-        // 2. 기술 스택 (노란색 강조)
-        techStack: "React / Node.js / C++",
-        // 3. 하단 상세 내용 (소제목 + 리스트)
-        details: [
-            {
-                subTitle: "ESP32 모듈 제작",
-                items: [
-                    "UART 통신을 통해 기기 본체와 데이터 송수신",
-                    "WebSocket을 통한 서버와 양방향 통신 구현"
-                ]
+        subImages: [
+            { 
+                type: "image",
+                label: "시스템 아키텍쳐", 
+                src: "/proj1_sys.png" 
             },
-            {
-                subTitle: "백엔드 서버 구축",
-                items: [
-                    "수집한 데이터 실시간 시각화 및 DB 저장",
-                    "DB 저장 로직을 비동기 백그라운드 작업으로 전환하여 데이터 처리와 저장 로직 분리 -> 병목현상 개선 및 반응성 개선",
-                    "차량 제어 API 개발"
-                ]
+            { 
+                type: "image",
+                label: "시스템 아키택쳐", 
+                src: "/proj1_sys2.png" 
             },
-            {
-                subTitle: "프론트엔드 개발",
-                items: [
-                    "문 열림, 주행 여부 등 차량 상태 시각화",
-                    "실시간 센서 데이터 시각화"
-                ]
-            }
-        ]
-    },
-        {
-        id: 3,
-        title: "MoviLink : 차량 실시간 모니터링 및 원격 제어 플랫폼",
-        color: "#333", // 실제 이미지 경로가 있다면 img src로 대체
-        // 1. 상단 메타 정보 (회색 텍스트)
-        metaInfo: [
-            "url : ~~",
-            "기간 : 25.03.18 ~ 25.03.27",
-            "개발인원 : 4명",
-            "역할 : PM / 데이터 처리 서버 및 통신 기능 개발"
-        ],
-        // 2. 기술 스택 (노란색 강조)
-        techStack: "React / Node.js / C++",
-        // 3. 하단 상세 내용 (소제목 + 리스트)
-        details: [
-            {
-                subTitle: "ESP32 모듈 제작",
-                items: [
-                    "UART 통신을 통해 기기 본체와 데이터 송수신",
-                    "WebSocket을 통한 서버와 양방향 통신 구현"
-                ]
-            },
-            {
-                subTitle: "백엔드 서버 구축",
-                items: [
-                    "수집한 데이터 실시간 시각화 및 DB 저장",
-                    "DB 저장 로직을 비동기 백그라운드 작업으로 전환하여 데이터 처리와 저장 로직 분리 -> 병목현상 개선 및 반응성 개선",
-                    "차량 제어 API 개발"
-                ]
-            },
-            {
-                subTitle: "프론트엔드 개발",
-                items: [
-                    "문 열림, 주행 여부 등 차량 상태 시각화",
-                    "실시간 센서 데이터 시각화"
-                ]
+            { 
+                type: "video",
+                label: "시연영상", 
+                src: "https://www.youtube.com/watch?v=pVm2xc3CM5Q&feature=youtu.be" 
             }
         ]
     },
 ];
 
 
-const Service = forwardRef (function Service(props, forwardedRef) {
-    const localRef = useRef(null);    
-    useImperativeHandle(forwardedRef, () => localRef.current);
+const Service = forwardRef<HTMLDivElement, {}>((props, forwardedRef) => {
+    const localRef = useRef<HTMLDivElement>(null);
     
+    useImperativeHandle(forwardedRef, () => localRef.current as HTMLDivElement);
+
     const {scrollYProgress} = useScroll({
         target: localRef,
         offset: ["start 80%", "end 80%"],
@@ -154,6 +122,11 @@ const Service = forwardRef (function Service(props, forwardedRef) {
         animate: {  width: "100px"},
     }
 
+    const subImageVariants = {
+        initial: { opacity: 0, y: 30 },
+        animate: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+    };
+
 
     return(
         <div className={style.mainContainer}>
@@ -174,9 +147,9 @@ const Service = forwardRef (function Service(props, forwardedRef) {
             {projectData.map((project) => (
                 <div key={project.id} className={style.projectArea}>
                     <div className={style.projectheader}>
-                        <motion.div 
+                        <motion.div
                             variants={lineVariants}
-                            initial = "initial"
+                            initial="initial"
                             whileInView="animate"
                             viewport={{ margin: "100% 0px -20% 0px" }}
                             transition={{ duration: 0.3, ease: "easeOut" }}
@@ -187,7 +160,7 @@ const Service = forwardRef (function Service(props, forwardedRef) {
                             variants={textVariants}
                             initial="initial"
                             whileInView="animate"
-                            viewport={{once: true, amount: 0.5}}
+                            viewport={{ once: true, amount: 0.5 }}
                             transition={{ duration: 0.5 }}
                         >
                             {project.title}
@@ -200,12 +173,27 @@ const Service = forwardRef (function Service(props, forwardedRef) {
                             variants={imageVariants}
                             initial="initial"
                             whileInView="animate"
-                            viewport={{once: true, amount: 0.2}}
+                            viewport={{ once: true, amount: 0.2 }}
                             transition={{ duration: 0.5 }}
                         >
                             <div className={style.imagePlaceholder}>
-                                <span style={{color: '#fff'}}>이미지</span>
-                                {/* <img src={project.image} alt={project.title} /> */}
+                                {/* 메인 미디어 분기 처리 */}
+                                {project.mainMedia.type === 'video' ? (
+                                    <iframe
+                                        src={getYouTubeEmbedUrl(project.mainMedia.src)}
+                                        title={`video-${project.title}`}
+                                        frameBorder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowFullScreen
+                                        style={{ width: '100%', height: '100%', display: 'block' }}
+                                    />
+                                ) : (
+                                    <img 
+                                        src={project.mainMedia.src} 
+                                        alt={project.title} 
+                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                                    />
+                                )}
                             </div>
                         </motion.div>
                         <motion.div
@@ -213,7 +201,7 @@ const Service = forwardRef (function Service(props, forwardedRef) {
                             variants={textVariants}
                             initial="initial"
                             whileInView="animate"
-                            viewport={{once: true, amount: 0.5}}
+                            viewport={{ once: true, amount: 0.5 }}
                             transition={{ duration: 0.5, delay: 0.4 }}
                         >
                             <div className={style.metaInfo}>
@@ -240,6 +228,41 @@ const Service = forwardRef (function Service(props, forwardedRef) {
                                 ))}
                             </div>
                         </motion.div>
+                    </div>
+                    
+                    <div className={style.projectSub}>
+                        {project.subImages?.map((subItem, idx) => (
+                            <motion.div 
+                                key={idx}
+                                initial="initial"
+                                whileInView="animate"
+                                viewport={{ once: true, amount: 0.2 }}
+                                variants={subImageVariants}
+                            >
+                                <div className={style.subTxet}>
+                                    {subItem.label}
+                                </div>
+                                <div className={style.subImege}>
+                                    {subItem.type === 'video' ? (
+                                         <div style={{ position:'relative', width:'100%', paddingTop:'56.25%' }}> 
+                                            <iframe
+                                                src={getYouTubeEmbedUrl(subItem.src)}
+                                                title={subItem.label || "sub-video"}
+                                                style={{ position:'absolute', top:0, left:0, width: '100%', height: '100%' }}
+                                                frameBorder="0"
+                                                allowFullScreen
+                                            />
+                                        </div>
+                                    ) : (
+                                        <img 
+                                            src={subItem.src} 
+                                            alt={subItem.label || "sub-image"} 
+                                            style={{ width: '100%', height: 'auto', display:'block' }} 
+                                        />
+                                    )}
+                                </div>
+                            </motion.div>
+                        ))}
                     </div>
                 </div>
             ))}
