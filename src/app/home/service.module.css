@@ -3,7 +3,7 @@
     width: 100vw;
 
     margin-top: -100vh;
-    padding-bottom: 50vh;
+    padding: 0px 40px 50vh 40px;
     z-index: 10;
 
     display: flex;
@@ -26,17 +26,21 @@
 }
 
 
+
 .projectArea{
     padding-top: 60px;
     margin: 0 20px 0 20px;
     width: calc(100% - 40px);
     height: 80vh;
 }
+
 .projectheader{
     width: 100%;
-    height: 80px;
+    height: 20%;
     display: flex;
     align-items: center;
+    font-size: 1.5rem;
+    gap: 10px;
 }
 .headerLine{
     width: 50px;
@@ -46,31 +50,106 @@
 }
 .headerLineOvercoat{
     position: absolute;
-    height: 1px;
+    height: 0.5px;
     background-color: #F28705;
     margin-right: 10px;
     box-shadow: 0 0 10px 1px #F28705;
 }
+
 .projectMain{
     width: 100%;
     height: 80%;
+
+    padding: 0px 30px 0px 30px;
+
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
+    align-items: flex-start;
+    
+    gap: 40px;
 }
-.mainImege{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
+.mainImege {
+    flex: 0 0 55%; 
+    aspect-ratio: 4 / 3; 
+}
+.imagePlaceholder {
     width: 100%;
+    height: 100%;
+    background-color: #1f1f1f; /* 이미지 없을 때 배경 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #333;
+}
+.mainImege img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
 }
 .mainText{
+    flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    gap: 20px;
     height: 100%;
-    width: 40%;
 }
+.metaInfo p {
+    margin: 5px 0;
+    color: #999; /* 회색 텍스트 */
+    font-size: 0.95rem;
+    font-weight: 400;
+}
+
+/* 2. 기술 스택 */
+.techStack {
+    margin-top: 10px;
+    font-size: 1rem;
+}
+
+.techLabel {
+    color: #f1c40f; /* 노란색/주황색 강조 */
+    font-weight: 700;
+}
+
+.techValue {
+    color: #f1c40f;
+    font-weight: 500;
+}
+
+/* 3. 상세 내용 (소제목 + 불렛 포인트) */
+.detailBlock {
+    margin-bottom: 20px;
+}
+
+.detailBlock h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 10px;
+    margin-top: 0;
+}
+
+.detailBlock ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin: 0;
+}
+
+.detailBlock li {
+    color: #ddd;
+    margin-bottom: 6px;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+.mainText h1 {
+    font-size: 1rem; /* 본문 폰트 크기로 조정 (기존 h1 너무 큼) */
+    font-weight: 400;
+    line-height: 1.6;
+    margin: 0;
+    white-space: pre-wrap; /* 줄바꿈 유지 */
+}
+
 
 
 .leftLine{
@@ -78,7 +157,8 @@
     background-color: #F28705;
 
     width: 0.5px;
-    left: 20px;
+    opacity: 0.8;
+    left: 60px;
     top: 30px;
     overflow: visible;
 }
