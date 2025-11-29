@@ -1,6 +1,7 @@
 import React, { forwardRef, useRef, useImperativeHandle } from "react";
 import style from "./service.module.css"
 import {motion, useScroll, useTransform} from "framer-motion"
+import ProjectItem, { Project as Issue } from "../../components/ProjectItem"; // Project 타입 import
 
 interface DetailItem {
     subTitle: string;
@@ -10,7 +11,7 @@ interface DetailItem {
 interface MediaItem {
     type: 'video' | 'image';
     src: string;
-    label?: string; // 하단 서브 이미지/영상에만 사용되는 라벨
+    label?: string; 
 }
 
 interface ProjectItem {
@@ -25,9 +26,14 @@ interface ProjectItem {
     techStack: string;
     details: DetailItem[];
     subImages?: MediaItem[];
+    links?: {
+        readme?: string;
+        website?: string;
+    };
+    issue?:Issue[];
 }
 
-// 2. 유튜브 URL 변환 함수 (타입 명시)
+
 const getYouTubeEmbedUrl = (url: string): string => {
     if (!url) return "";
     if (url.includes("/embed/")) return url;
@@ -40,7 +46,46 @@ const getYouTubeEmbedUrl = (url: string): string => {
         : url;
 };
 
-// 3. 데이터 (ProjectItem 타입 적용)
+
+const HorizontalGallery = ({ items }: { items: MediaItem[] }) => {
+    const targetRef = useRef<HTMLDivElement>(null);
+
+    const { scrollYProgress } = useScroll({
+        target: targetRef,
+        offset: ["start start", "end end"],
+    });
+
+    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-57%"]);
+
+    return (
+        <div ref={targetRef} className={style.horizontalSection}>
+            <div className={style.stickyWrapper}>
+                <motion.div style={{ x }} className={style.cardContainer}>
+                    {items.map((item, index) => (
+                        <div key={index} className={style.horizontalCard}>
+                            <div className={style.hCardHeader}>
+                                <span className={style.hCardLabel}>{item.label}</span>
+                                <span className={style.hCardIndex}>0{index + 1}</span>
+                            </div>
+                            <div className={style.hCardBody}>
+                                {item.type === 'video' ? (
+                                    <iframe
+                                        src={getYouTubeEmbedUrl(item.src)}
+                                        title={item.label}
+                                        style={{ width: '100%', height: '100%', border: 'none' }}
+                                        allowFullScreen
+                                    />
+                                ) : (
+                                    <img src={item.src} alt={item.label} />
+                                )}
+                            </div>
+                        </div>
+                    ))}
+                </motion.div>
+            </div>
+        </div>
+    );
+};
 const projectData: ProjectItem[] = [
     {
         id: 1,
@@ -51,7 +96,6 @@ const projectData: ProjectItem[] = [
             src: "/proj1_main.png",
         },
         metaInfo: [
-            "Readme: https://github.com/ideal402/Hyundai-embedded-project",
             "기간 : 25.03.18 ~ 25.03.27",
             "개발인원 : 4명",
             "역할 : PM / 데이터 처리 서버 및 통신 기능 개발"
@@ -66,6 +110,10 @@ const projectData: ProjectItem[] = [
                 ]
             }
         ],
+        links: {
+            readme: "https://github.com/ideal402/Hyundai-embedded-project",
+            website: "https://movilink.netlify.app" 
+        },
         subImages: [
             { 
                 type: "image",
@@ -82,6 +130,21 @@ const projectData: ProjectItem[] = [
                 label: "시연영상", 
                 src: "https://www.youtube.com/watch?v=pVm2xc3CM5Q&feature=youtu.be" 
             }
+        ],
+        issue: [ 
+            {
+                id: "p1",
+                title: "검사장비 AI 예지보전 설계",
+                info: { 
+                    goal: "검사장비 이상을 선제적으로 탐지하는 AI 기술 개발",
+                    result: "현대모비스 PoC 단계 협의 진행",
+                    term: "4개월"
+                },
+                details: [ 
+                    "검사데이터 1만 3천건 분석 -> 가용한 데이터 선별, 활용할 AI 모델 선정",
+                    "데이터 수집, 분석 파이프라인 설계 및 초기 시스템 개발"
+                ]
+            },
         ]
     },
 ];
@@ -127,6 +190,10 @@ const Service = forwardRef<HTMLDivElement, {}>((props, forwardedRef) => {
         animate: { opacity: 1, y: 0, transition: { duration: 0.5 } }
     };
 
+    const cardVariants = {
+        initial: { opacity: 0, y: 50 },
+        animate: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+    };
 
     return(
         <div className={style.mainContainer}>
@@ -177,7 +244,6 @@ const Service = forwardRef<HTMLDivElement, {}>((props, forwardedRef) => {
                             transition={{ duration: 0.5 }}
                         >
                             <div className={style.imagePlaceholder}>
-                                {/* 메인 미디어 분기 처리 */}
                                 {project.mainMedia.type === 'video' ? (
                                     <iframe
                                         src={getYouTubeEmbedUrl(project.mainMedia.src)}
@@ -204,12 +270,45 @@ const Service = forwardRef<HTMLDivElement, {}>((props, forwardedRef) => {
                             viewport={{ once: true, amount: 0.5 }}
                             transition={{ duration: 0.5, delay: 0.4 }}
                         >
+                            {project.links && (
+                                <div className={style.linkBtnArea}>
+                                    {project.links.readme && (
+                                        <a 
+                                            href={project.links.readme} 
+                                            target="_blank" 
+                                            rel="noopener noreferrer"
+                                            className={`${style.visitBtn} ${style.githubBtn}`}
+                                        >
+                                            README
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style={{marginLeft: '8px'}}>
+                                                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405 1.02 0 2.04.135 3 .405 2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                                            </svg>
+                                        </a>
+                                    )}
+                                    {project.links.website && (
+                                        <a 
+                                            href={project.links.website} 
+                                            target="_blank" 
+                                            rel="noopener noreferrer"
+                                            className={style.visitBtn}
+                                        >
+                                            Visit Web
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{marginLeft: '8px'}}>
+                                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                                <polyline points="15 3 21 3 21 9"></polyline>
+                                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                                            </svg>
+                                        </a>
+                                    )}
+                                </div>
+                            )}
+                            
                             <div className={style.metaInfo}>
                                 {project.metaInfo.map((line, index) => (
                                     <p key={index}>{line}</p>
                                 ))}
                             </div>
-
+                            
                             <div className={style.techStack}>
                                 <span className={style.techLabel}>사용 기술 : </span>
                                 <span className={style.techValue}>{project.techStack}</span>
@@ -227,43 +326,19 @@ const Service = forwardRef<HTMLDivElement, {}>((props, forwardedRef) => {
                                     </div>
                                 ))}
                             </div>
+                            
                         </motion.div>
                     </div>
-                    
-                    <div className={style.projectSub}>
-                        {project.subImages?.map((subItem, idx) => (
-                            <motion.div 
-                                key={idx}
-                                initial="initial"
-                                whileInView="animate"
-                                viewport={{ once: true, amount: 0.2 }}
-                                variants={subImageVariants}
-                            >
-                                <div className={style.subTxet}>
-                                    {subItem.label}
-                                </div>
-                                <div className={style.subImege}>
-                                    {subItem.type === 'video' ? (
-                                         <div style={{ position:'relative', width:'100%', paddingTop:'56.25%' }}> 
-                                            <iframe
-                                                src={getYouTubeEmbedUrl(subItem.src)}
-                                                title={subItem.label || "sub-video"}
-                                                style={{ position:'absolute', top:0, left:0, width: '100%', height: '100%' }}
-                                                frameBorder="0"
-                                                allowFullScreen
-                                            />
-                                        </div>
-                                    ) : (
-                                        <img 
-                                            src={subItem.src} 
-                                            alt={subItem.label || "sub-image"} 
-                                            style={{ width: '100%', height: 'auto', display:'block' }} 
-                                        />
-                                    )}
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
+                    {project.issue?.map((project) => (
+                        <div className={style.projectIssue}>
+                            <ProjectItem key={project.id} project={project} />
+                        </div>
+                    ))}
+                    {project.subImages && project.subImages.length > 0 && (
+                        <div className={style.projectSub}>
+                            <HorizontalGallery items={project.subImages} />
+                        </div>
+                    )}
                 </div>
             ))}
             <div
