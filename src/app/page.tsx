@@ -4,7 +4,7 @@ import HeroSection from "./home/HeroSection";
 import Approach from "./home/Approach";
 import Service from "./home/Service";
 import Career from "./home/Career";
-import Navbar  from "../component/Navbar";
+import Navbar  from "../components/Navbar";
 import { useRef } from "react";
 import style from "./page.module.css";
 
