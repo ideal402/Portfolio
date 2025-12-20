@@ -40,16 +40,37 @@
 
 
 .title{
+    position: relative;
     width: 100%;
     font-size: 3rem;
-    padding: 0px 50px 0px 50px;
+    padding: 0px 50px 100px 50px;
 }
 .title > h1:first-child{
     justify-self: end;
+    font-size: 7rem;
 }
 .title > h1:last-child{
     justify-self: end;
-    padding-right: 200px;
+    padding-right: 95px;
+}
+.typeText{
+    position: absolute;
+    bottom: 100px;
+    left: 0;
+    padding: 0px 175px;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.cursor {
+  position: relative;
+  top: -10px;
+  margin-left: 2px; 
+  color: inherit;       
+  animation: blink 1s step-end infinite; 
 }
 
 .subTitle{
