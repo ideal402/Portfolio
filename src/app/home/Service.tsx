@@ -86,6 +86,7 @@ const HorizontalGallery = ({ items }: { items: MediaItem[] }) => {
         </div>
     );
 };
+
 const projectData: ProjectItem[] = [
     {
         id: 1,
@@ -329,11 +330,11 @@ const Service = forwardRef<HTMLDivElement, {}>((props, forwardedRef) => {
                             
                         </motion.div>
                     </div>
-                    {project.issue?.map((project) => (
+                    {/* {project.issue?.map((project) => (
                         <div className={style.projectIssue}>
                             <ProjectItem key={project.id} project={project} />
                         </div>
-                    ))}
+                    ))} */}
                     {project.subImages && project.subImages.length > 0 && (
                         <div className={style.projectSub}>
                             <HorizontalGallery items={project.subImages} />

@@ -80,6 +80,12 @@ const Approach = forwardRef (function Approach(props, forwardedRef) {
         initial: { opacity: 0, y: 20 },
         animate: { opacity: 1, y: 0, transition: { duration: 0.5 } }
     };
+    
+    const photoVariants = {
+        initial: { opacity: 0, y: 20 },
+        animate: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+        exit: { opacity: 0, y: -30, transition: { duration: 0.4 } }
+    };
 
 
     return(
@@ -105,7 +111,21 @@ const Approach = forwardRef (function Approach(props, forwardedRef) {
                             ))}
                         </motion.div>
                         )}
-
+                        {activeText === 1 && (
+                            <div 
+                                className={style.profilePhotoBox}
+                            >
+                                <motion.img
+                                    key="profilePhoto"
+                                    variants={photoVariants}
+                                    initial = "initial"
+                                    animate = "animate"
+                                    exit = "exit"
+                                    src={"/profile.jpg"}
+                                    className={style.profilePhoto}
+                                />
+                            </div>
+                        )}
                         {activeText === 3 && (
                             <motion.div
                                 key="skills"
