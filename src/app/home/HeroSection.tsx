@@ -14,7 +14,7 @@ const HeroSection = forwardRef<HTMLDivElement, HeroSectionProps>(function HeroSe
   const localRef = useRef<HTMLDivElement>(null);
   const [text, setText] = useState("");
 
-  const myText = ["Front-End", "Back-End", "AI", "IoT"]
+  const myText = ["Back-End", "Front-End", "AIoT"]
   
   useEffect(() => {
     const typeWords = async () => {
@@ -40,7 +40,7 @@ const HeroSection = forwardRef<HTMLDivElement, HeroSectionProps>(function HeroSe
           await new Promise((resolve) => setTimeout(resolve, 50));
         }
 
-        await new Promise((resolve) => setTimeout(resolve, 100));
+        await new Promise((resolve) => setTimeout(resolve, 1000));
         
         idx = (idx+1)% myText.length;
       }
@@ -73,7 +73,7 @@ const HeroSection = forwardRef<HTMLDivElement, HeroSectionProps>(function HeroSe
           <motion.div className={style.heroSection} style={{ y:smoothY, }}>
             <div className={style.textArea}>
               <div className={style.title}>
-                <h1> Hi, I'm Sangbin, </h1>
+                <h1> Hi. I'm Sangbin, </h1>
                 <h1 className={style.typeText}>{text}<span className={style.cursor}>|</span></h1>
                 <h1> __________ developer </h1>
               </div>

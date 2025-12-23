@@ -7,6 +7,7 @@ import Career from "./home/Career";
 import Navbar  from "../components/Navbar";
 import { useRef } from "react";
 import style from "./page.module.css";
+import ShootingStarScene from "@/components/ShootingStars";
 
 export default function Home() {
   const heroRef = useRef(null);

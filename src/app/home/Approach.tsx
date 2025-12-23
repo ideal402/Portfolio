@@ -2,41 +2,72 @@ import React, { useState, forwardRef, useRef, useImperativeHandle, useEffect } f
 import {motion, useScroll, AnimatePresence} from "framer-motion"
 import style from "./approach.module.css"
 
+interface Skill {
+  name: string;
+  highlight: boolean;
+}
+
+interface SkillCategory {
+  category: string;
+  skills: Skill[];
+}
 
 const TEXT_CONTENTS = [
     {
-    id: 1,
-    lines: [
-      "하드웨어(IoT) 환경부터 웹 인터페이스까지",
-      "데이터의 전체 흐름을 설계하는 백엔드 개발자입니다.</br>", 
-      "스마트 팩토리 및 모니터링 시스템을 주력으로", 
-      "다양한 플랫폼의 데이터를 통합하고 최적화하며", 
-      "안정적인 통신 설계와 직관적인 UI/UX로 사용자에게", 
-      "신뢰받는 서비스를 구현합니다."
-    ]
-  },
-  {
-    id: 2,
-    lines: [
-      "데이터는 정확하게 처리되고 가치 있게 쓰여야 비로소 의미를 가집니다.", 
-      "저는 오차 없는 수집과 목적에 맞는 효율적인 가공 및 저장을 개발의 최우선 순위로 둡니다.",
-      "단순한 숫자의 나열을 넘어 사용자에게 명확한 인사이트를 \n제공하는 시스템을 지향합니다."
-    ]
-  },
+        id: 1,
+        title: [
+            "안녕하세요,",
+            "벡엔드 개발자 이상빈입니다."],
+        lines: [
+            "데이터의 생성부터 사용자 접점까지",
+            "엔드 투 엔드 시스템을 설계합니다.",
+            "AI와 IoT 디바이스를 유기적으로 결합하며,", 
+            "사용자 경험을 중시하는 서비스를 구축합니다."
+        ]
+    },
+    // {
+    //     id: 2,
+    //     lines: [
+    //         "확장성을 중요하게 생각합니다",
+    //         "MQTT를 활용하여 데이터 신뢰도를 높이고",
+    //         "API를 통해 Board, Mobile"
+    //     ]
+    // },
 ];
 
-const SKILLS_CATEGORIES = [
+const SKILLS_CATEGORIES : SkillCategory[] = [
   {
     category: "Advanced",
-    skills: ["LabVIEW", "Python", "Django", "PostgreSQL", "SQL"]
+    skills: [
+      { name: "C++", highlight: true },
+      { name: "Java", highlight: true },
+      { name: "Python", highlight: true }, 
+      { name: "SpringBoot", highlight: false },
+      { name: "Django", highlight: false },
+    ]
   },
   {
     category: "Proficient",
-    skills: ["React", "Next.js", "Node.js", "MongoDB", "JavaScript"]
+    skills: [
+      { name: "JavaScript", highlight: true },
+      { name: "React", highlight: true },
+      { name: "Next.js", highlight: false },
+      { name: "Node.js", highlight: false },
+      { name: "MongoDB", highlight: false },
+      { name: "SQL", highlight: false },
+      { name: "PostgreSQL", highlight: false },
+    ]
   },
   {
     category: "Familiar",
-    skills: ["C++", "Java", "Git", "Docker"]
+    skills: [
+      { name: "Git", highlight: false },
+      { name: "GitHub", highlight: false },
+      { name: "LabVIEW", highlight: false },
+      { name: "Unity", highlight: false },
+      { name: "figma", highlight: false },
+      { name: "Jira", highlight: false },
+    ]
   }
 ];
 
@@ -54,10 +85,10 @@ const Approach = forwardRef (function Approach(props, forwardedRef) {
 
     useEffect(() => {
         const unsubscribe = scrollYProgress.on("change", (latest) => {
-            if (latest < 0.20) setActiveText(0); 
-            else if (latest < 0.3) setActiveText(1);
-            else if (latest < 0.5) setActiveText(2); 
-            else if (latest < 0.7) setActiveText(3); 
+            if (latest < 0.3) setActiveText(0); 
+            else if (latest < 0.5) setActiveText(1);
+            else if (latest < 0.7) setActiveText(2); 
+            // else if (latest < 0.7) setActiveText(3); 
             else setActiveText(0);
         });
         return () => unsubscribe();
@@ -66,12 +97,12 @@ const Approach = forwardRef (function Approach(props, forwardedRef) {
     const containerVariants = {
         initial: { opacity: 0, y: 30 },
         animate: {
-        opacity: 1,
-        y: 0,
-        transition: {
-            duration: 0.6,
-            staggerChildren: 0.2 
-        }
+            opacity: 1,
+            y: 0,
+            transition: {
+                duration: 0.6,
+                staggerChildren: 0.5 
+            }
         },
         exit: { opacity: 0, y: -30, transition: { duration: 0.4 } }
     };
@@ -94,7 +125,7 @@ const Approach = forwardRef (function Approach(props, forwardedRef) {
                 <div className={style.contentArea}> 
                     
                     <AnimatePresence mode="wait">
-                        {activeText > 0 && activeText < 3 && (
+                        {activeText > 0 && activeText <= TEXT_CONTENTS.length && (
                         <motion.div
                             key={`text-section-${activeText}`} 
                             className={style.textArea}
@@ -104,14 +135,27 @@ const Approach = forwardRef (function Approach(props, forwardedRef) {
                             exit="exit"
                             transition={{ duration: 0.5 }}
                         >
-                            {TEXT_CONTENTS[activeText - 1].lines.map((line, index) => (
-                              <motion.h1 
-                                key={index} 
-                                dangerouslySetInnerHTML={{ __html: line }} />
-                            ))}
+                            <motion.div
+                                key="title"
+                                variants={itemVariants} 
+                                className={style.title}
+                            >
+                                {TEXT_CONTENTS[activeText - 1].title.map((item, index)=>(
+                                    <h1 key={index} >{item}</h1>
+                                ))}
+                            </motion.div>
+                            <motion.div 
+                                key="line"
+                                variants={itemVariants} 
+                                className={style.subTitle}
+                            >
+                                {TEXT_CONTENTS[activeText - 1].lines.map((item, index)=>(
+                                    <h1 key={index}>{item}</h1>
+                                ))}
+                            </motion.div> 
                         </motion.div>
                         )}
-                        {activeText === 1 && (
+                        {/* {activeText === 1 && (
                             <div 
                                 className={style.profilePhotoBox}
                             >
@@ -125,8 +169,8 @@ const Approach = forwardRef (function Approach(props, forwardedRef) {
                                     className={style.profilePhoto}
                                 />
                             </div>
-                        )}
-                        {activeText === 3 && (
+                        )} */}
+                        {activeText === TEXT_CONTENTS.length+1 && (
                             <motion.div
                                 key="skills"
                                 className={style.skillsWrapper} 
@@ -135,14 +179,25 @@ const Approach = forwardRef (function Approach(props, forwardedRef) {
                                 animate="animate"
                                 exit="exit"
                             >
-                                {SKILLS_CATEGORIES.map((item, index) => (
+                                {SKILLS_CATEGORIES.map((categoryItem, index) => (
                                     <motion.div 
                                         key={index} 
                                         className={style.skillCategory} 
                                         variants={itemVariants}
                                     >
-                                        <h2 className={style.categoryTitle}>{item.category}</h2>
-                                        <p className={style.skillList}> {item.skills.join(" · ")}</p>
+                                        <h2 className={style.categoryTitle}>{categoryItem.category}</h2>
+                                        <p className={style.skillList}> 
+                                            {categoryItem.skills.map((skill, sIndex) => (
+                                                <React.Fragment key={sIndex}>
+                                                    <span 
+                                                        className={skill.highlight ? style.highlight : ""}
+                                                    >
+                                                        {skill.name}
+                                                    </span>
+                                                    {sIndex < categoryItem.skills.length - 1 && " · "}
+                                                </React.Fragment>
+                                            ))}
+                                        </p>
                                     </motion.div>
                                 ))}
                             </motion.div>
