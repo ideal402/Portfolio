@@ -16,6 +16,7 @@
     color: #fff;
 }
 .pageName{
+    margin-top: 80vh;
     width: 100%;
     max-width: 800px;
     height: 100px;
@@ -68,4 +69,8 @@
 
 .careerWork {
     flex: 2; 
+}
+
+.footerBox{
+    height: 20vh;
 }

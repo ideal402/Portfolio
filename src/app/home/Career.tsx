@@ -14,7 +14,7 @@ interface CareerData {
     works: string[];
     projects: Project[];
 }
-
+ 
 const CAREER_DATA: CareerData[] = [
     {
         id: 1,
@@ -156,6 +156,7 @@ const Career = forwardRef<HTMLDivElement, CareerProps>(function Career(props, fo
                         ))}
                     </div>
                 ))}
+                <span className={style.footerBox}> </span>
             </motion.div>
         </>
     )
